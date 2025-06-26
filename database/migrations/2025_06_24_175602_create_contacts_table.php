@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('company')->index();
-            $table->enum('status', ['Lead', 'Customer', 'Prospect'])->index();
+            $table->enum('status', ['Lead', 'Prospect', 'Blocked', 'Inactive'])->index();
             $table->timestamps();
         });
     }

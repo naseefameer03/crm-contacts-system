@@ -37,7 +37,7 @@ class ContactController extends Controller
 
         $contacts = $query->paginate(50);
 
-        return view('contact.index2', compact('contacts'));
+        return view('contact.index', compact('contacts'));
     }
 
     public function export(Request $request)

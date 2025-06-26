@@ -17,7 +17,7 @@ This is a mini CRM-style Laravel application designed to manage and filter 1 mil
 
 ```bash
 git clone https://github.com/naseefameer03/crm-contacts-system.git
-cd crm-contacts
+cd crm-contacts-system
 ```
 
 ### 2. Install Dependencies
@@ -55,15 +55,6 @@ Visit: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 🔍 Features
-
-* Filter contacts by **status**, **company**, and **created date**.
-* Global **search** (by name/email).
-* **Paginated table** to navigate large datasets.
-* Export **filtered contacts** to a **CSV file** using Laravel Excel.
-
----
-
 ## ⚡ Performance Considerations
 
 * Database columns like `status`, `company`, and `created_at` are **indexed**.
@@ -76,7 +67,7 @@ Visit: [http://localhost:8000](http://localhost:8000)
 ## 📹 Video Walkthrough
 
 Watch the demo video here:
-[🔗 Click to Watch](https://your-video-link.com)
+[🔗 Click to Watch](https://youtu.be/1YxehkSWc28)
 
 ---
 
@@ -84,7 +75,6 @@ Watch the demo video here:
 
 * Laravel 12
 * MySQL / MariaDB
-* Laravel Breeze (auth scaffolding)
 * Laravel Excel (CSV export)
 * Tailwind CSS + Blade templates
 
