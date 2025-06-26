@@ -57,21 +57,25 @@ class ContactController extends Controller
      */
     public function export(Request $request)
     {
-        dd($request->all());
         $is_completed = ExportReady::where('is_completed', 0)->where('is_viewed', 0)->exists();
-        // Check if an export is already in progress
         if ($is_completed) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'An export is already in progress. Please wait until it is completed.'
-            ], 429);
+            ]);
         }
 
         ExportContactsJob::dispatch($request->all());
 
+        if ($request->total_contacts < 50000) {
+            $message = 'Your export is being processed. You’ll be notified when it’s ready.';
+        } else {
+            $message = 'Your export is being processed. You’ll be notified when the zip file is ready.';
+        }
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Your export is being processed. You’ll be notified when it’s ready.'
+            'message' => $message
         ]);
     }
 

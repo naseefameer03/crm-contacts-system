@@ -24,6 +24,7 @@ class ContactSeeder extends Seeder
             $data = [];
             for ($j = 0; $j < $chunks; $j++) {
                 $data[] = [
+                    'uuid' => (string) \Illuminate\Support\Str::uuid(),
                     'name' => $faker->name,
                     'email' => $faker->unique()->safeEmail,
                     'phone' => $faker->e164PhoneNumber,

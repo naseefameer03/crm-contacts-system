@@ -49,6 +49,11 @@ class ContactsExport implements FromQuery, WithHeadings, WithMapping, WithEvents
             });
         }
 
+        if(isset($this->request['chunk']) && isset($this->request['chunk_size'])) {
+            $query->skip($this->request['chunk'] * $this->request['chunk_size'])
+                  ->take($this->request['chunk_size']);
+        }
+
         return $query;
     }
 

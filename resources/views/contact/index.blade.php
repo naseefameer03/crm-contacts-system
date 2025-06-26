@@ -232,6 +232,8 @@
     </div>
 
     <input type="hidden" name="base_url" id="base_url" value="{{ url('/') }}">
+    <input type="hidden" name="total_contacts" id="total_contacts"
+        value="{{ $contacts->total() }}">
 
     <script src="{{ asset('assets/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/moment.min.js') }}"></script>

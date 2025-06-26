@@ -31,15 +31,47 @@ class ExportContactsJob implements ShouldQueue
     public function handle(): void
     {
         ExportReady::whereIn('is_viewed', [0, 1])->delete();
-        $filename = 'exports/contacts_' . now()->format('Ymd_His') . '.xlsx';
 
-        $ready = ExportReady::create([
-            'filepath' => $filename
-        ]);
+        if ($this->request['total_contacts'] < 50000) {
+            $filename = 'exports/contacts_' . now()->format('Ymd_His') . '.xlsx';
 
-        Excel::store(new ContactsExport($this->request), $filename, 'public');
+            $ready = ExportReady::create([
+                'filepath' => $filename
+            ]);
 
-        $ready->is_completed = 1;
-        $ready->save();
+            Excel::store(new ContactsExport($this->request), $filename, 'public');
+
+            $ready->is_completed = 1;
+            $ready->save();
+        } else {
+
+            $filename = 'exports/contacts_' . now()->format('Ymd_His') . '.zip';
+            $ready = ExportReady::create([
+                'filepath' => $filename
+            ]);
+            $zip = new \ZipArchive();
+            if ($zip->open(storage_path('app/public/' . $filename), \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === TRUE) {
+                $chunkSize = 50000;
+                $totalContacts = $this->request['total_contacts'];
+                $chunks = ceil($totalContacts / $chunkSize);
+                for ($i = 0; $i < $chunks; $i++) {
+                    $chunkFilename = 'exports/contacts_chunk_' . ($i + 1) . '_' . now()->format('Ymd_His') . '.xlsx';
+                    Excel::store(new ContactsExport(array_merge($this->request, ['chunk' => $i, 'chunk_size' => $chunkSize])), $chunkFilename, 'public');
+                    $zip->addFile(storage_path('app/public/' . $chunkFilename), basename($chunkFilename));
+                }
+                $zip->close();
+                $ready->is_completed = 1;
+                $ready->save();
+            } else {
+                // Handle error if zip file cannot be created
+                throw new \Exception('Could not create zip file for contacts export.');
+            }
+        }
+    }
+
+    // failed method to handle job failure
+    public function failed(\Exception $exception): void
+    {
+        ExportReady::whereIn('is_viewed', [0, 1])->delete();
     }
 }

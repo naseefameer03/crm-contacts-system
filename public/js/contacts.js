@@ -24,52 +24,6 @@ tailwind.config = {
 
 $(document).ready(function () {
 
-    $("#exportBtn").click(function (e) {
-        e.preventDefault();
-        $('#exportBtn').prop('disabled', true);
-        $("#exportBtnText").html("Exporting...");
-
-        var form_json = {
-            'status': $("#status").val(),
-            'company': $("#company").val(),
-            'dateRange': $('#dateRange').val(),
-            'search': $('#search').val()
-        };
-
-        $.ajax({
-            method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: base_url + "/contact-export",
-            data: form_json,
-            success: function (data) {
-                $('#exportBtn').prop('disabled', false);
-                $("#exportBtnText").html("Export to CSV");
-                $("#pending_message").removeClass("hidden");
-
-                if (data?.status == "error") {
-                    $("#text-content").html(data.message);
-                } else {
-                    $("#text-content").html(data.message);
-                }
-
-                setTimeout(function () {
-                    $("#pending_message").addClass("hidden");
-                }, 2000);
-
-                isExportShown = false;
-
-            }, error: (response) => {
-                $("#pending_message").removeClass("hidden");
-                $("#text-content").html("An error occurred while processing your request. Please try again later.");
-                setTimeout(function () {
-                    $("#pending_message").addClass("hidden");
-                }, 4000);
-            }
-        });
-    });
-
     // get url parameters
     var urlParams = new URLSearchParams(window.location.search);
     var dateRange = urlParams.get('dateRange');
@@ -82,7 +36,7 @@ $(document).ready(function () {
             var endDate = moment(dates[1], 'YYYY-MM-DD');
 
             $('#created-daterange span').html(startDate.format('MMM D') + ' - ' + endDate.format('MMM D'));
-
+            $("#dateRange").val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
         }
     } else {
         var startDate = moment().subtract(50, 'years');
@@ -118,6 +72,53 @@ $(document).ready(function () {
         $('#created-daterange').data('daterangepicker').setEndDate(end_custom);
         $('.yearselect').val(start_custom.format('Y')).trigger('change');
         $('.monthselect').val(start_custom.format('M') - 1).trigger('change');
+    });
+
+    $("#exportBtn").click(function (e) {
+        e.preventDefault();
+        $('#exportBtn').prop('disabled', true);
+        $("#exportBtnText").html("Exporting...");
+
+        var form_json = {
+            'status': $("#status").val(),
+            'company': $("#company").val(),
+            'dateRange': $('#dateRange').val(),
+            'search': $('#search').val(),
+            'total_contacts': $('#total_contacts').val()
+        };
+
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: base_url + "/contact-export",
+            data: form_json,
+            success: function (data) {
+                $('#exportBtn').prop('disabled', false);
+                $("#exportBtnText").html("Export to CSV");
+                $("#pending_message").removeClass("hidden");
+
+                if (data?.status == "error") {
+                    $("#text-content").html(data.message);
+                } else {
+                    $("#text-content").html(data.message);
+                }
+
+                setTimeout(function () {
+                    $("#pending_message").addClass("hidden");
+                }, 2000);
+
+                isExportShown = false;
+
+            }, error: (response) => {
+                $("#pending_message").removeClass("hidden");
+                $("#text-content").html("An error occurred while processing your request. Please try again later.");
+                setTimeout(function () {
+                    $("#pending_message").addClass("hidden");
+                }, 4000);
+            }
+        });
     });
 
     setInterval(function () {
