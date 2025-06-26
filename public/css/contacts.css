@@ -1,19 +1,28 @@
-.fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-.filter-section {
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Smooth transitions */
+.smooth-transition {
     transition: all 0.3s ease;
+}
+
+.created-date-form {
+    border: 1px solid grey;
+    padding: 6px 2px;
 }

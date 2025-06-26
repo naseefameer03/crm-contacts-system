@@ -32,6 +32,7 @@ npm install && npm run dev
 ```bash
 cp .env.example .env
 php artisan key:generate
+php artisan storage:link
 ```
 
 Update your `.env` file with correct **database credentials**.
