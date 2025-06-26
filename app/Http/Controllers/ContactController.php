@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ContactsExport;
 use App\Models\Contact;
-use App\Http\Requests\StoreContactRequest;
-use App\Http\Requests\UpdateContactRequest;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContactController extends Controller
 {
@@ -37,6 +37,11 @@ class ContactController extends Controller
 
         $contacts = $query->paginate(50);
 
-        return view('contacts.index', compact('contacts'));
+        return view('contact.index2', compact('contacts'));
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ContactsExport($request), 'contacts.csv');
     }
 }
