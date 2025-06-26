@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +14,7 @@ class ContactSeeder extends Seeder
     public function run(): void
     {
         $faker = Factory::create();
-        $statuses = ['Lead', 'Customer', 'Prospect'];
+        $statuses = ['Lead', 'Prospect', 'Blocked', 'Inactive'];
         $companies = ['Google', 'Amazon', 'Tesla', 'Apple', 'Meta'];
 
         $chunks = 1000;
@@ -27,7 +26,7 @@ class ContactSeeder extends Seeder
                 $data[] = [
                     'name' => $faker->name,
                     'email' => $faker->unique()->safeEmail,
-                    'phone' => $faker->phoneNumber,
+                    'phone' => $faker->e164PhoneNumber,
                     'company' => $faker->randomElement($companies),
                     'status' => $faker->randomElement($statuses),
                     'created_at' => $faker->dateTimeBetween('-2 years'),
