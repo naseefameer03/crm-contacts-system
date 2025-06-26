@@ -7,7 +7,7 @@ This is a mini CRM-style Laravel application designed to manage and filter 1 mil
 * Contact filtering by status, company, and creation date.
 * Search functionality (name/email).
 * Paginated results display.
-* Export filtered results to both Xlsx and Zip (file file rows are greater than 50000)
+* Export filtered results to either xlsx or Zip (Only when file rows are greater than 50000)
 
 ---
 
@@ -68,7 +68,7 @@ Visit: [http://localhost:8000](http://localhost:8000)
 ## 📹 Video Walkthrough
 
 Watch the demo video here:
-[🔗 Click to Watch](https://youtu.be/_C4QalO8eVQ)
+[🔗 Click to Watch](https://drive.google.com/file/d/1mA1p-WaauedogZl1Q3R2vTI1QIBqNEW9/view?usp=sharing)
 
 ---
 
